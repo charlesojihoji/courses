@@ -5,17 +5,21 @@ import java.util.Optional;
 import java.util.UUID;
 
 import edu.uoengland.courses.dto.CourseDTO;
-import edu.uoengland.courses.entity.Course;
+import edu.uoengland.courses.entity.CourseFaculty;
 
 public interface CourseService {
 
-	public Course createACourse(CourseDTO courseDTO);
+	public CourseFaculty createACourse(CourseDTO courseDTO);
 
-	public List<Course> getAllCourses();
+	public List<CourseFaculty> getAllCourses();
 
-	public Optional<Course> getACourse(UUID courseId);
+	public Optional<CourseFaculty> getACourse(UUID courseId);
 
 	public void updateACourse(CourseDTO courseDTO);
 
 	public void deleteACourse(UUID courseId);
+
+	public List<CourseFaculty> getAllCoursesForAFacultyMember(String facultyName);
+
+	public CourseFaculty getDetailsOfACourseFOrAFacultyMember(String facultyName, String courseName);
 }

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.uoengland.courses.dto.CourseDTO;
-import edu.uoengland.courses.entity.Course;
+import edu.uoengland.courses.entity.CourseFaculty;
 import edu.uoengland.courses.repository.CoursesRepository;
 
 @Service
@@ -18,9 +18,9 @@ public class CourseServiceImpl implements CourseService{
 	private CoursesRepository coursesRepository;
 	
 	@Override
-	public Course createACourse(CourseDTO courseDTO) {
+	public CourseFaculty createACourse(CourseDTO courseDTO) {
 		
-		Course courseObject = new Course();
+		CourseFaculty courseObject = new CourseFaculty();
 		
 		courseObject.setCourseName(courseDTO.getCourseName());
 		courseObject.setCourseFacultyMember(courseDTO.getCourseFacultyMember());
@@ -30,13 +30,13 @@ public class CourseServiceImpl implements CourseService{
 	}
 
 	@Override
-	public List<Course> getAllCourses() {
+	public List<CourseFaculty> getAllCourses() {
 
 		return coursesRepository.findAll();
 	}
 
 	@Override
-	public Optional<Course> getACourse(UUID courseId) {
+	public Optional<CourseFaculty> getACourse(UUID courseId) {
 
 		return coursesRepository.findById(courseId);
 	}
@@ -44,7 +44,7 @@ public class CourseServiceImpl implements CourseService{
 	@Override
 	public void updateACourse(CourseDTO courseDTO) {
 
-		Course updatedCourse = new Course();
+		CourseFaculty updatedCourse = new CourseFaculty();
 		
 		updatedCourse.setCourseId(courseDTO.getCourseId());
 		updatedCourse.setCourseName(courseDTO.getCourseName());
@@ -58,6 +58,18 @@ public class CourseServiceImpl implements CourseService{
 	public void deleteACourse(UUID courseId) {
 
 		coursesRepository.deleteById(courseId);
+	}
+
+	@Override
+	public List<CourseFaculty> getAllCoursesForAFacultyMember(String facultyName) {
+
+		return coursesRepository.findByCourseFacultyMember(facultyName);
+	}
+
+	@Override
+	public CourseFaculty getDetailsOfACourseFOrAFacultyMember(String facultyName, String courseName) {
+
+		return coursesRepository.findByCourseFacultyMemberAndCourseName(facultyName, courseName);
 	}
 
 }

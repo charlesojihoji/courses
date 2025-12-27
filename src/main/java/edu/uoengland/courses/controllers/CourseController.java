@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.uoengland.courses.dto.CourseDTO;
-import edu.uoengland.courses.entity.Course;
+import edu.uoengland.courses.entity.CourseFaculty;
 import edu.uoengland.courses.service.CourseService;
 
 @RestController
@@ -34,15 +34,27 @@ public class CourseController {
 	}
 	
 	@GetMapping
-	public List<Course> getAllCourses() {
+	public List<CourseFaculty> getAllCourses() {
 		
 		return courseService.getAllCourses();
 	}
 	
 	@GetMapping("/{courseId}")
-	public Optional<Course> getACourse(@PathVariable UUID courseId) {
+	public Optional<CourseFaculty> getACourse(@PathVariable UUID courseId) {
 		
 		return courseService.getACourse(courseId);
+	}
+	
+	@GetMapping("/faculty/{facultyName}")
+	public List<CourseFaculty> getAllCoursesForAFacultyMember(@PathVariable String facultyName){
+		
+		return courseService.getAllCoursesForAFacultyMember(facultyName);
+	}
+	
+	@GetMapping("/{facultyName}/{courseName}")
+	public CourseFaculty getDetailsOfACourseFOrAFacultyMember(@PathVariable String facultyName, @PathVariable String courseName) {
+		
+		return courseService.getDetailsOfACourseFOrAFacultyMember(facultyName, courseName);
 	}
 	
 	@PutMapping("/update")

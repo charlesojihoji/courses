@@ -10,8 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="courses")
-public class Course {
+@Table(name="courses_faculty")
+public class CourseFaculty {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.UUID)
@@ -27,11 +27,11 @@ public class Course {
 	@Column(name="initial_numb_of_students_enrolled")
 	private int initialNumOfStudentsEnrolled;
 
-	public Course() {
+	public CourseFaculty() {
 		super();
 	}
 
-	public Course(UUID courseId, String courseName, String courseFacultyMember, int initialNumOfStudentsEnrolled) {
+	public CourseFaculty(UUID courseId, String courseName, String courseFacultyMember, int initialNumOfStudentsEnrolled) {
 		super();
 		this.courseId = courseId;
 		this.courseName = courseName;
