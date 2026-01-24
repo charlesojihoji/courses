@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import edu.uoengland.courses.dto.CourseDTO;
 import edu.uoengland.courses.entity.CourseFaculty;
+import edu.uoengland.courses.entity.Student;
 
 public interface CourseService {
 
@@ -21,5 +22,7 @@ public interface CourseService {
 
 	public List<CourseFaculty> getAllCoursesForAFacultyMember(String facultyName);
 
-	public CourseFaculty getDetailsOfACourseFOrAFacultyMember(String facultyName, String courseName);
+	public CourseFaculty getDetailsOfACourseForAFacultyMember(String facultyName, String courseName);
+
+	public List<Student> getListOfStudentsForACourseForAFacultyMember(String facultyName, String courseName);
 }
