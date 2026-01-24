@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.uoengland.courses.dto.CourseDTO;
 import edu.uoengland.courses.entity.CourseFaculty;
+import edu.uoengland.courses.entity.Student;
 import edu.uoengland.courses.service.CourseService;
 
 @RestController
 @RequestMapping("/courses")
+@CrossOrigin("*")
 public class CourseController {
 
 	@Autowired
@@ -52,9 +55,15 @@ public class CourseController {
 	}
 	
 	@GetMapping("/{facultyName}/{courseName}")
-	public CourseFaculty getDetailsOfACourseFOrAFacultyMember(@PathVariable String facultyName, @PathVariable String courseName) {
+	public CourseFaculty getDetailsOfACourseForAFacultyMember(@PathVariable String facultyName, @PathVariable String courseName) {
 		
-		return courseService.getDetailsOfACourseFOrAFacultyMember(facultyName, courseName);
+		return courseService.getDetailsOfACourseForAFacultyMember(facultyName, courseName);
+	}
+	
+	@GetMapping("/students/{facultyName}/{courseName}")
+	public List<Student> getListOfStudentsForACourseForAFacultyMember(@PathVariable String facultyName, @PathVariable String courseName) {
+		
+		return courseService.getListOfStudentsForACourseForAFacultyMember(facultyName, courseName);
 	}
 	
 	@PutMapping("/update")

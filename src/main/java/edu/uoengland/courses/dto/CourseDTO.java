@@ -1,10 +1,12 @@
 package edu.uoengland.courses.dto;
 
+import java.util.Set;
 import java.util.UUID;
 
 public class CourseDTO {
 
 	private UUID courseId;
+	private Set<UUID> studentId;
 	private String courseName;
 	private String courseFacultyMember;
 	private int initialNumOfStudentsEnrolled;
@@ -13,9 +15,11 @@ public class CourseDTO {
 		super();
 	}
 
-	public CourseDTO(UUID courseId, String courseName, String courseFacultyMember, int initialNumOfStudentsEnrolled) {
+	public CourseDTO(UUID courseId, Set<UUID> studentId, String courseName, String courseFacultyMember,
+			int initialNumOfStudentsEnrolled) {
 		super();
 		this.courseId = courseId;
+		this.studentId = studentId;
 		this.courseName = courseName;
 		this.courseFacultyMember = courseFacultyMember;
 		this.initialNumOfStudentsEnrolled = initialNumOfStudentsEnrolled;
@@ -27,6 +31,14 @@ public class CourseDTO {
 
 	public void setCourseId(UUID courseId) {
 		this.courseId = courseId;
+	}
+
+	public Set<UUID> getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(Set<UUID> studentId) {
+		this.studentId = studentId;
 	}
 
 	public String getCourseName() {
