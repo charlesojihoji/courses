@@ -6,6 +6,7 @@ import java.util.UUID;
 public class CourseDTO {
 
 	private UUID courseId;
+	//Was recently added
 	private Set<UUID> studentId;
 	private String courseName;
 	private String courseFacultyMember;
