@@ -25,4 +25,6 @@ public interface CourseService {
 	public CourseFaculty getDetailsOfACourseForAFacultyMember(String facultyName, String courseName);
 
 	public List<Student> getListOfStudentsForACourseForAFacultyMember(String facultyName, String courseName);
+
+	public List<CourseDTO> getAListOfCoursesForAStudent(UUID studentId);
 }
