@@ -66,6 +66,12 @@ public class CourseController {
 		return courseService.getListOfStudentsForACourseForAFacultyMember(facultyName, courseName);
 	}
 	
+	@GetMapping("/forAStudent/{studentId}")
+	public List<CourseDTO> getAListOfCoursesForAStudent(@PathVariable UUID studentId){
+		
+		return courseService.getAListOfCoursesForAStudent(studentId);
+	}
+	
 	@PutMapping("/update")
 	public String updateACourse(@RequestBody CourseDTO courseDTO) {
 		

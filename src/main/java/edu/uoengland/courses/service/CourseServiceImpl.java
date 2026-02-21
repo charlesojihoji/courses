@@ -94,4 +94,10 @@ public class CourseServiceImpl implements CourseService{
 		return studentRepository.findStudentsByCourseAndFaculty(courseName, facultyName);
 	}
 
+	@Override
+	public List<CourseDTO> getAListOfCoursesForAStudent(UUID studentId) {
+
+		return coursesRepository.findCourseDTOByStudentId(studentId);
+	}
+
 }
