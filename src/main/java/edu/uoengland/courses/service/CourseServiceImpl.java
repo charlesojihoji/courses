@@ -1,5 +1,7 @@
 package edu.uoengland.courses.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +11,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.uoengland.courses.dto.CourseChapterDTO;
 import edu.uoengland.courses.dto.CourseDTO;
+import edu.uoengland.courses.entity.CourseChapters;
 import edu.uoengland.courses.entity.CourseFaculty;
 import edu.uoengland.courses.entity.Student;
 import edu.uoengland.courses.repository.CoursesRepository;
@@ -32,8 +36,11 @@ public class CourseServiceImpl implements CourseService{
 		courseObject.setCourseName(courseDTO.getCourseName());
 		courseObject.setCourseFacultyMember(courseDTO.getCourseFacultyMember());
 		courseObject.setInitialNumOfStudentsEnrolled(courseDTO.getInitialNumOfStudentsEnrolled());
-		
-		Set<Student> studentSet = new HashSet();
+//		courseObject.setCourseDescription(courseDTO.ge);
+//		courseObject.setCourseCreatedAt(LocalDateTime.now());
+//		courseObject.setCourseCreatedAt(LocalDateTime.now());
+//		courseObject.setCourseCreatedAt(LocalDateTime.now());
+		Set<Student> studentSet = new HashSet<>();
 				
 		for(UUID obj: courseDTO.getStudentId()) {
 			
@@ -42,6 +49,23 @@ public class CourseServiceImpl implements CourseService{
 		}
 
 		courseObject.setStudents(studentSet);
+		
+		Set<CourseChapters> courseChapterSet = new HashSet<>();
+		
+		for(CourseChapterDTO courseChapterDTO: courseDTO.getCourseChapters()) {
+			
+			CourseChapters courseChapters = new CourseChapters();
+			
+			courseChapters.setChapterTitle(courseChapterDTO.getChapterTitle());
+			courseChapters.setChapterDescription(courseChapterDTO.getChapterDescription());
+			courseChapters.setChapterStatus(courseChapterDTO.getChapterStatus());
+			courseChapters.setCourseFaculty(courseObject);
+			
+			courseChapterSet.add(courseChapters);
+		}
+		
+		courseObject.setCourseChapters(new ArrayList<>(courseChapterSet));
+				
 		return coursesRepository.save(courseObject);
 	}
 
