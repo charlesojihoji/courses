@@ -1,5 +1,6 @@
 package edu.uoengland.courses.dto;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
@@ -8,26 +9,39 @@ import edu.uoengland.courses.entity.CourseChapters;
 public class CourseDTO {
 
 	private UUID courseId;
-	//Was recently added
-	private Set<UUID> studentId;
 	private String courseName;
+	private UUID facultyId;
 	private String courseFacultyMember;
-	private int initialNumOfStudentsEnrolled;
+	private String courseDescription;
 	private Set<CourseChapterDTO> courseChapters;
+	private Double coursePrice;
+	private LocalDate courseCreatedAt;
+	private LocalDate courseUpdatedAt;
+	private Double courseDuration;
+	private String courseImage;
+	private String courseVideo;
 	
 	public CourseDTO() {
 		super();
 	}
 	
-	public CourseDTO(UUID courseId, Set<UUID> studentId, String courseName, String courseFacultyMember,
-			int initialNumOfStudentsEnrolled, Set<CourseChapterDTO> courseChapters) {
+	public CourseDTO(UUID courseId, String courseName, UUID facultyId, String courseFacultyMember,
+			String courseDescription, Set<CourseChapterDTO> courseChapters, Double coursePrice,
+			LocalDate courseCreatedAt, LocalDate courseUpdatedAt, Double courseDuration, String courseImage,
+			String courseVideo) {
 		super();
 		this.courseId = courseId;
-		this.studentId = studentId;
 		this.courseName = courseName;
+		this.facultyId = facultyId;
 		this.courseFacultyMember = courseFacultyMember;
-		this.initialNumOfStudentsEnrolled = initialNumOfStudentsEnrolled;
+		this.courseDescription = courseDescription;
 		this.courseChapters = courseChapters;
+		this.coursePrice = coursePrice;
+		this.courseCreatedAt = courseCreatedAt;
+		this.courseUpdatedAt = courseUpdatedAt;
+		this.courseDuration = courseDuration;
+		this.courseImage = courseImage;
+		this.courseVideo = courseVideo;
 	}
 
 	public UUID getCourseId() {
@@ -38,20 +52,20 @@ public class CourseDTO {
 		this.courseId = courseId;
 	}
 
-	public Set<UUID> getStudentId() {
-		return studentId;
-	}
-
-	public void setStudentId(Set<UUID> studentId) {
-		this.studentId = studentId;
-	}
-
 	public String getCourseName() {
 		return courseName;
 	}
 
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+
+	public UUID getFacultyId() {
+		return facultyId;
+	}
+
+	public void setFacultyId(UUID facultyId) {
+		this.facultyId = facultyId;
 	}
 
 	public String getCourseFacultyMember() {
@@ -62,12 +76,12 @@ public class CourseDTO {
 		this.courseFacultyMember = courseFacultyMember;
 	}
 
-	public int getInitialNumOfStudentsEnrolled() {
-		return initialNumOfStudentsEnrolled;
+	public String getCourseDescription() {
+		return courseDescription;
 	}
 
-	public void setInitialNumOfStudentsEnrolled(int initialNumOfStudentsEnrolled) {
-		this.initialNumOfStudentsEnrolled = initialNumOfStudentsEnrolled;
+	public void setCourseDescription(String courseDescription) {
+		this.courseDescription = courseDescription;
 	}
 
 	public Set<CourseChapterDTO> getCourseChapters() {
@@ -77,4 +91,53 @@ public class CourseDTO {
 	public void setCourseChapters(Set<CourseChapterDTO> courseChapters) {
 		this.courseChapters = courseChapters;
 	}
+
+	public Double getCoursePrice() {
+		return coursePrice;
+	}
+
+	public void setCoursePrice(Double coursePrice) {
+		this.coursePrice = coursePrice;
+	}
+
+	public LocalDate getCourseCreatedAt() {
+		return courseCreatedAt;
+	}
+
+	public void setCourseCreatedAt(LocalDate courseCreatedAt) {
+		this.courseCreatedAt = courseCreatedAt;
+	}
+
+	public LocalDate getCourseUpdatedAt() {
+		return courseUpdatedAt;
+	}
+
+	public void setCourseUpdatedAt(LocalDate courseUpdatedAt) {
+		this.courseUpdatedAt = courseUpdatedAt;
+	}
+
+	public Double getCourseDuration() {
+		return courseDuration;
+	}
+
+	public void setCourseDuration(Double courseDuration) {
+		this.courseDuration = courseDuration;
+	}
+
+	public String getCourseImage() {
+		return courseImage;
+	}
+
+	public void setCourseImage(String courseImage) {
+		this.courseImage = courseImage;
+	}
+
+	public String getCourseVideo() {
+		return courseVideo;
+	}
+
+	public void setCourseVideo(String courseVideo) {
+		this.courseVideo = courseVideo;
+	}
+
 }

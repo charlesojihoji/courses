@@ -2,6 +2,8 @@ package edu.uoengland.courses.entity;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,25 +27,21 @@ public class CourseChapters {
 
 	@Column(name="chapter_description", nullable=false)
 	private String chapterDescription;
-	
-	@Column(name="chapter_status", nullable=false)
-	private String chapterStatus;
 
 	@ManyToOne
 	@JoinColumn(name="course_id")
+	@JsonIgnore
 	private CourseFaculty courseFaculty;
 	
 	public CourseChapters() {
 		super();
 	}
 
-	public CourseChapters(UUID courseChapterId, String chapterTitle, String chapterDescription, String chapterStatus,
-			CourseFaculty courseFaculty) {
+	public CourseChapters(UUID courseChapterId, String chapterTitle, String chapterDescription, CourseFaculty courseFaculty) {
 		super();
 		this.courseChapterId = courseChapterId;
 		this.chapterTitle = chapterTitle;
 		this.chapterDescription = chapterDescription;
-		this.chapterStatus = chapterStatus;
 		this.courseFaculty = courseFaculty;
 	}
 
@@ -69,14 +67,6 @@ public class CourseChapters {
 
 	public void setChapterDescription(String chapterDescription) {
 		this.chapterDescription = chapterDescription;
-	}
-
-	public String getChapterStatus() {
-		return chapterStatus;
-	}
-
-	public void setChapterStatus(String chapterStatus) {
-		this.chapterStatus = chapterStatus;
 	}
 
 	public CourseFaculty getCourseFaculty() {
