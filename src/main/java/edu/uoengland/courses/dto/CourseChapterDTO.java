@@ -9,20 +9,17 @@ public class CourseChapterDTO {
 	private UUID courseChapterId;
 	private String chapterTitle;
 	private String chapterDescription;
-	private String chapterStatus;
 	private CourseFaculty courseFaculty;
 	
 	public CourseChapterDTO() {
 		super();
 	}
 
-	public CourseChapterDTO(UUID courseChapterId, String chapterTitle, String chapterDescription, String chapterStatus,
-			CourseFaculty courseFaculty) {
+	public CourseChapterDTO(UUID courseChapterId, String chapterTitle, String chapterDescription, CourseFaculty courseFaculty) {
 		super();
 		this.courseChapterId = courseChapterId;
 		this.chapterTitle = chapterTitle;
 		this.chapterDescription = chapterDescription;
-		this.chapterStatus = chapterStatus;
 		this.courseFaculty = courseFaculty;
 	}
 
@@ -48,14 +45,6 @@ public class CourseChapterDTO {
 
 	public void setChapterDescription(String chapterDescription) {
 		this.chapterDescription = chapterDescription;
-	}
-
-	public String getChapterStatus() {
-		return chapterStatus;
-	}
-
-	public void setChapterStatus(String chapterStatus) {
-		this.chapterStatus = chapterStatus;
 	}
 
 	public CourseFaculty getCourseFaculty() {

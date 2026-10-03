@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.uoengland.courses.dto.CourseDTO;
 import edu.uoengland.courses.entity.CourseFaculty;
-import edu.uoengland.courses.entity.Student;
 import edu.uoengland.courses.service.CourseService;
 
 @RestController
@@ -58,18 +57,6 @@ public class CourseController {
 	public CourseFaculty getDetailsOfACourseForAFacultyMember(@PathVariable String facultyName, @PathVariable String courseName) {
 		
 		return courseService.getDetailsOfACourseForAFacultyMember(facultyName, courseName);
-	}
-	
-	@GetMapping("/students/{facultyName}/{courseName}")
-	public List<Student> getListOfStudentsForACourseForAFacultyMember(@PathVariable String facultyName, @PathVariable String courseName) {
-		
-		return courseService.getListOfStudentsForACourseForAFacultyMember(facultyName, courseName);
-	}
-	
-	@GetMapping("/forAStudent/{studentId}")
-	public List<CourseDTO> getAListOfCoursesForAStudent(@PathVariable UUID studentId){
-		
-		return courseService.getAListOfCoursesForAStudent(studentId);
 	}
 	
 	@PutMapping("/update")

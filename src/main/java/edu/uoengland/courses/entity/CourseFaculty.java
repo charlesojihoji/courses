@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +34,9 @@ public class CourseFaculty {
 	@Column(name="course_name", unique=true)
 	private String courseName;
 	
+	@Column(name="faculty_id")
+	private UUID facultyId;
+	
 	@Column(name="course_faculty_member")
 	private String courseFacultyMember;
 	
@@ -40,30 +45,23 @@ public class CourseFaculty {
 	
 	@Lob
 	@Column(name="course_image")
-	private byte[] courseImage;
+	private String courseImage;
 	
 	@Column(name="course_duration")
-	private Long courseDuration;
+	private Double courseDuration;
 	
 	@Column(name="course_price")
-	private Long coursePrice;
+	private Double coursePrice;
 	
 	@Lob
 	@Column(name="course_video")
-	private byte[] courseVideo;
+	private String courseVideo;
 	
 	@Column(name="course_created_at")
 	private LocalDateTime courseCreatedAt;
 	
 	@Column(name="course_updated_at")
 	private LocalDateTime courseUpdatedAt;
-	
-	@Column(name="initial_numb_of_students_enrolled")
-	private int initialNumOfStudentsEnrolled;
-
-	@ManyToMany
-	@JoinTable(name="course_student", joinColumns = @JoinColumn(name="course_id"), inverseJoinColumns = @JoinColumn(name="id", referencedColumnName = "id"))
-	private Set<Student> students;
 	
 	@OneToMany(mappedBy="courseFaculty", cascade=jakarta.persistence.CascadeType.ALL)
 	private List<CourseChapters> courseChapters = new ArrayList<>();
@@ -72,13 +70,13 @@ public class CourseFaculty {
 		super();
 	}
 
-	public CourseFaculty(UUID courseId, String courseName, String courseFacultyMember, String courseDescription,
-			byte[] courseImage, Long courseDuration, Long coursePrice, byte[] courseVideo,
-			LocalDateTime courseCreatedAt, LocalDateTime courseUpdatedAt, int initialNumOfStudentsEnrolled,
-			Set<Student> students, List<CourseChapters> courseChapters) {
+	public CourseFaculty(UUID courseId, String courseName, UUID facultyId, String courseFacultyMember,
+			String courseDescription, String courseImage, Double courseDuration, Double coursePrice, String courseVideo,
+			LocalDateTime courseCreatedAt, LocalDateTime courseUpdatedAt, List<CourseChapters> courseChapters) {
 		super();
 		this.courseId = courseId;
 		this.courseName = courseName;
+		this.facultyId = facultyId;
 		this.courseFacultyMember = courseFacultyMember;
 		this.courseDescription = courseDescription;
 		this.courseImage = courseImage;
@@ -87,8 +85,6 @@ public class CourseFaculty {
 		this.courseVideo = courseVideo;
 		this.courseCreatedAt = courseCreatedAt;
 		this.courseUpdatedAt = courseUpdatedAt;
-		this.initialNumOfStudentsEnrolled = initialNumOfStudentsEnrolled;
-		this.students = students;
 		this.courseChapters = courseChapters;
 	}
 
@@ -108,6 +104,14 @@ public class CourseFaculty {
 		this.courseName = courseName;
 	}
 
+	public UUID getFacultyId() {
+		return facultyId;
+	}
+
+	public void setFacultyId(UUID facultyId) {
+		this.facultyId = facultyId;
+	}
+
 	public String getCourseFacultyMember() {
 		return courseFacultyMember;
 	}
@@ -124,35 +128,35 @@ public class CourseFaculty {
 		this.courseDescription = courseDescription;
 	}
 
-	public byte[] getCourseImage() {
+	public String getCourseImage() {
 		return courseImage;
 	}
 
-	public void setCourseImage(byte[] courseImage) {
+	public void setCourseImage(String courseImage) {
 		this.courseImage = courseImage;
 	}
 
-	public Long getCourseDuration() {
+	public Double getCourseDuration() {
 		return courseDuration;
 	}
 
-	public void setCourseDuration(Long courseDuration) {
+	public void setCourseDuration(Double courseDuration) {
 		this.courseDuration = courseDuration;
 	}
 
-	public Long getCoursePrice() {
+	public Double getCoursePrice() {
 		return coursePrice;
 	}
 
-	public void setCoursePrice(Long coursePrice) {
+	public void setCoursePrice(Double coursePrice) {
 		this.coursePrice = coursePrice;
 	}
 
-	public byte[] getCourseVideo() {
+	public String getCourseVideo() {
 		return courseVideo;
 	}
 
-	public void setCourseVideo(byte[] courseVideo) {
+	public void setCourseVideo(String courseVideo) {
 		this.courseVideo = courseVideo;
 	}
 
@@ -172,22 +176,6 @@ public class CourseFaculty {
 		this.courseUpdatedAt = courseUpdatedAt;
 	}
 
-	public int getInitialNumOfStudentsEnrolled() {
-		return initialNumOfStudentsEnrolled;
-	}
-
-	public void setInitialNumOfStudentsEnrolled(int initialNumOfStudentsEnrolled) {
-		this.initialNumOfStudentsEnrolled = initialNumOfStudentsEnrolled;
-	}
-
-	public Set<Student> getStudents() {
-		return students;
-	}
-
-	public void setStudents(Set<Student> students) {
-		this.students = students;
-	}
-
 	public List<CourseChapters> getCourseChapters() {
 		return courseChapters;
 	}
@@ -195,5 +183,4 @@ public class CourseFaculty {
 	public void setCourseChapters(List<CourseChapters> courseChapters) {
 		this.courseChapters = courseChapters;
 	}
-
 }

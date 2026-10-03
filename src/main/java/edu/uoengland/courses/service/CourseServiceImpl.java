@@ -15,57 +15,49 @@ import edu.uoengland.courses.dto.CourseChapterDTO;
 import edu.uoengland.courses.dto.CourseDTO;
 import edu.uoengland.courses.entity.CourseChapters;
 import edu.uoengland.courses.entity.CourseFaculty;
-import edu.uoengland.courses.entity.Student;
 import edu.uoengland.courses.repository.CoursesRepository;
-import edu.uoengland.courses.repository.StudentRepository;
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 
 @Service
-public class CourseServiceImpl implements CourseService{
+public class CourseServiceImpl implements CourseService {
 
 	@Autowired
 	private CoursesRepository coursesRepository;
-	
-	@Autowired
-	private StudentRepository studentRepository;
-	
+
 	@Override
 	public CourseFaculty createACourse(CourseDTO courseDTO) {
-		
-		CourseFaculty courseObject = new CourseFaculty();
-		
-		courseObject.setCourseName(courseDTO.getCourseName());
-		courseObject.setCourseFacultyMember(courseDTO.getCourseFacultyMember());
-		courseObject.setInitialNumOfStudentsEnrolled(courseDTO.getInitialNumOfStudentsEnrolled());
-//		courseObject.setCourseDescription(courseDTO.ge);
-//		courseObject.setCourseCreatedAt(LocalDateTime.now());
-//		courseObject.setCourseCreatedAt(LocalDateTime.now());
-//		courseObject.setCourseCreatedAt(LocalDateTime.now());
-		Set<Student> studentSet = new HashSet<>();
-				
-		for(UUID obj: courseDTO.getStudentId()) {
-			
-			Optional<Student> studentObj = studentRepository.findById(obj);
-			studentSet.add(studentObj.get());
-		}
 
-		courseObject.setStudents(studentSet);
+		CourseFaculty courseObject = new CourseFaculty();
+
+		courseObject.setCourseName(courseDTO.getCourseName());
+		courseObject.setFacultyId(courseDTO.getFacultyId());
+		courseObject.setCourseFacultyMember(courseDTO.getCourseFacultyMember());
+		courseObject.setCourseDescription(courseDTO.getCourseDescription());
+		courseObject.setCourseCreatedAt(LocalDateTime.now());
+		courseObject.setCourseUpdatedAt(LocalDateTime.now());
+		courseObject.setCourseImage(courseDTO.getCourseImage());
+		courseObject.setCourseVideo(courseDTO.getCourseVideo());
+		courseObject.setCourseDuration(courseDTO.getCourseDuration());
+		courseObject.setCoursePrice(courseDTO.getCoursePrice());
 		
 		Set<CourseChapters> courseChapterSet = new HashSet<>();
-		
-		for(CourseChapterDTO courseChapterDTO: courseDTO.getCourseChapters()) {
-			
+
+		for (CourseChapterDTO courseChapterDTO : courseDTO.getCourseChapters()) {
+
 			CourseChapters courseChapters = new CourseChapters();
-			
+
 			courseChapters.setChapterTitle(courseChapterDTO.getChapterTitle());
 			courseChapters.setChapterDescription(courseChapterDTO.getChapterDescription());
-			courseChapters.setChapterStatus(courseChapterDTO.getChapterStatus());
 			courseChapters.setCourseFaculty(courseObject);
-			
 			courseChapterSet.add(courseChapters);
 		}
-		
+
 		courseObject.setCourseChapters(new ArrayList<>(courseChapterSet));
-				
+
+		courseObject.setCourseCreatedAt(LocalDateTime.now());
+		courseObject.setCourseUpdatedAt(LocalDateTime.now());
+		
 		return coursesRepository.save(courseObject);
 	}
 
@@ -84,13 +76,58 @@ public class CourseServiceImpl implements CourseService{
 	@Override
 	public void updateACourse(CourseDTO courseDTO) {
 
-		CourseFaculty updatedCourse = new CourseFaculty();
-		
+		CourseFaculty updatedCourse = coursesRepository.findByCourseId(courseDTO.getCourseId());
+
 		updatedCourse.setCourseId(courseDTO.getCourseId());
 		updatedCourse.setCourseName(courseDTO.getCourseName());
+		updatedCourse.setFacultyId(courseDTO.getFacultyId());
 		updatedCourse.setCourseFacultyMember(courseDTO.getCourseFacultyMember());
-		updatedCourse.setInitialNumOfStudentsEnrolled(courseDTO.getInitialNumOfStudentsEnrolled());
-		
+		updatedCourse.setCourseDescription(courseDTO.getCourseDescription());
+		updatedCourse.setCourseImage(courseDTO.getCourseImage());
+		updatedCourse.setCourseDuration(courseDTO.getCourseDuration());
+		updatedCourse.setCoursePrice(courseDTO.getCoursePrice());
+		updatedCourse.setCourseVideo(courseDTO.getCourseVideo());
+		updatedCourse.setCourseUpdatedAt(LocalDateTime.now());
+
+		List<CourseChapters> ccptList = new ArrayList<CourseChapters>();
+
+		for (CourseChapterDTO ccptDTO : courseDTO.getCourseChapters()) {
+
+			for(CourseChapters obj : updatedCourse.getCourseChapters()) {
+				
+				//If course chapters already exist
+				if( ccptDTO.getCourseChapterId().equals(obj.getCourseChapterId()) ) {
+					obj.setChapterDescription(ccptDTO.getChapterDescription());
+					obj.setChapterTitle(ccptDTO.getChapterTitle());
+					obj.setCourseFaculty(updatedCourse);
+					
+					ccptList.add(obj);
+				}
+				
+				//For course chapters that never existed before
+				else {
+					CourseChapters newObj = new CourseChapters();
+					newObj.setChapterDescription(ccptDTO.getChapterDescription());
+					newObj.setChapterTitle(ccptDTO.getChapterTitle());
+					newObj.setCourseFaculty(updatedCourse);
+					
+					ccptList.add(newObj);
+				}
+			}
+			
+			//If no course chapters ever existed before in the database
+			if (ccptList.size() == 0) {
+				CourseChapters newObj = new CourseChapters();
+				newObj.setChapterDescription(ccptDTO.getChapterDescription());
+				newObj.setChapterTitle(ccptDTO.getChapterTitle());
+				newObj.setCourseFaculty(updatedCourse);
+				
+				ccptList.add(newObj);
+			}
+		}
+
+		updatedCourse.setCourseChapters(ccptList);
+
 		coursesRepository.save(updatedCourse);
 	}
 
@@ -111,17 +148,4 @@ public class CourseServiceImpl implements CourseService{
 
 		return coursesRepository.findByCourseFacultyMemberAndCourseName(facultyName, courseName);
 	}
-
-	@Override
-	public List<Student> getListOfStudentsForACourseForAFacultyMember(String facultyName, String courseName) {
-
-		return studentRepository.findStudentsByCourseAndFaculty(courseName, facultyName);
-	}
-
-	@Override
-	public List<CourseDTO> getAListOfCoursesForAStudent(UUID studentId) {
-
-		return coursesRepository.findCourseDTOByStudentId(studentId);
-	}
-
 }
