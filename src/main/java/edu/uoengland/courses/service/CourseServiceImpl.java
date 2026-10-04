@@ -93,10 +93,14 @@ public class CourseServiceImpl implements CourseService {
 
 		for (CourseChapterDTO ccptDTO : courseDTO.getCourseChapters()) {
 
+			boolean doesCourseChapterAlreadyExist = false;
+			
 			for(CourseChapters obj : updatedCourse.getCourseChapters()) {
 				
+				doesCourseChapterAlreadyExist = true;
+				
 				//If course chapters already exist
-				if( ccptDTO.getCourseChapterId().equals(obj.getCourseChapterId()) ) {
+				if( (ccptDTO.getCourseChapterId() != null) && (ccptDTO.getCourseChapterId().equals(obj.getCourseChapterId() ) ) ) {
 					obj.setChapterDescription(ccptDTO.getChapterDescription());
 					obj.setChapterTitle(ccptDTO.getChapterTitle());
 					obj.setCourseFaculty(updatedCourse);
@@ -116,7 +120,7 @@ public class CourseServiceImpl implements CourseService {
 			}
 			
 			//If no course chapters ever existed before in the database
-			if (ccptList.size() == 0) {
+			if (!doesCourseChapterAlreadyExist) {
 				CourseChapters newObj = new CourseChapters();
 				newObj.setChapterDescription(ccptDTO.getChapterDescription());
 				newObj.setChapterTitle(ccptDTO.getChapterTitle());
